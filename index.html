@@ -35,22 +35,9 @@
 
     <main id="app" class="w-full max-w-2xl my-auto">
         <div class="card bg-white rounded-3xl p-6 md:p-10 relative overflow-hidden border border-amber-100">
-            <!-- Dynamic Category Tag -->
-            <div id="question-meta" class="text-xs font-bold text-amber-600 uppercase tracking-widest mb-3 bg-amber-50 inline-block px-3 py-1 rounded-full border border-amber-200">
-                Oefenplatform
-            </div>
-            
             <!-- Question Text -->
             <div id="question-text" class="text-xl md:text-2xl text-gray-800 font-bold mb-6 leading-snug">
                 Klaar om te beginnen met oefenen? Klik op de onderstaande knop.
-            </div>
-
-            <!-- Hint Section -->
-            <div id="hint-container" class="hidden mb-6">
-                <button id="toggle-hint-btn" type="button" class="text-sm font-semibold text-amber-600 hover:text-amber-800 underline flex items-center gap-1 focus:outline-none">
-                    💡 Toon tip
-                </button>
-                <div id="hint-text" class="hidden mt-2 p-3 bg-amber-50 rounded-xl text-amber-900 text-sm border border-amber-200 italic"></div>
             </div>
 
             <!-- Inputs and Actions -->
@@ -134,45 +121,41 @@
             () => {
                 const n = 6 + Math.floor(Math.random() * 4); 
                 const k = 3 + Math.floor(Math.random() * 2); 
+                const ans = Math.pow(n, k);
                 return {
-                    category: "Machtsverheffen (met herhaling)",
                     q: `Een pincode bestaat uit ${getalNaarTekst(k)} posities. Voor elke positie kun je kiezen uit de cijfers 1 tot en met ${n}. Herhaling is toegestaan.<br><br>Bereken hoeveel verschillende codes er mogelijk zijn.`,
-                    a: Math.pow(n, k),
-                    h: `Voor elke positie heb je ${n} keuzes. Gebruik een macht: ${n}<sup>${k}</sup>.`,
-                    e: `${n}<sup>${k}</sup> = ${Math.pow(n, k)}`
+                    a: ans,
+                    e: `De volgorde waarin je de dingen kiest maakt uit en je kan elk ding vaker kiezen, dus het is een macht.<br><br><strong>Berekening:</strong> ${n}<sup>${k}</sup> = ${ans}`
                 };
             },
             // 1: Permutatie (Functies/Rangen)
             () => {
                 const n = 8 + Math.floor(Math.random() * 5);
+                const ans = math.nPr(n, 2);
                 return {
-                    category: "Permutatie (volgorde van belang)",
                     q: `Een klas heeft ${getalNaarTekst(n)} leerlingen. Er wordt een bestuur gekozen van twee personen: één voorzitter en één penningmeester.<br><br>Bereken op hoeveel manieren dit bestuur gevormd kan worden.`,
-                    a: math.nPr(n, 2),
-                    h: `Omdat de functies verschillend zijn, is de volgorde van belang. Gebruik de productregel of permutatie.`,
-                    e: `${n} · ${n-1} = ${math.nPr(n, 2)}`
+                    a: ans,
+                    e: `De volgorde waarin je de dingen kiest maakt uit en je kan elk ding maximaal één keer kiezen, dus het is een permutatie.<br><br><strong>Berekening:</strong> ${n} · ${n-1} = ${ans}`
                 };
             },
             // 2: Combinatie (2 uit n)
             () => {
                 const n = 12 + Math.floor(Math.random() * 8);
+                const ans = math.nCr(n, 2);
                 return {
-                    category: "Combinatie (2 uit n)",
                     q: `Uit een team van ${getalNaarTekst(n)} sporters worden er twee gekozen om het veld op te ruimen.<br><br>Bereken hoeveel verschillende tweetallen er mogelijk zijn.`,
-                    a: math.nCr(n, 2),
-                    h: `De volgorde binnen het duo maakt niet uit. Gebruik de combinatieformule ${binomHTML(n, 2)}.`,
-                    e: `${binomHTML(n, 2)} = ${math.nCr(n, 2)}`
+                    a: ans,
+                    e: `De volgorde waarin je de dingen kiest maakt niet uit, dus het is een combinatie.<br><br><strong>Berekening:</strong> ${binomHTML(n, 2)} = ${ans}`
                 };
             },
             // 3: Combinatie (3 uit n)
             () => {
                 const n = 7 + Math.floor(Math.random() * 4);
+                const ans = math.nCr(n, 3);
                 return {
-                    category: "Combinatie (3 uit n)",
                     q: `Je kiest drie verschillende soorten fruit uit een mand met ${getalNaarTekst(n)} verschillende fruitsoorten.<br><br>Bereken hoeveel verschillende combinaties van fruit er mogelijk zijn.`,
-                    a: math.nCr(n, 3),
-                    h: `De volgorde van selectie maakt niet uit. Gebruik ${binomHTML(n, 3)}.`,
-                    e: `${binomHTML(n, 3)} = ${math.nCr(n, 3)}`
+                    a: ans,
+                    e: `De volgorde waarin je de dingen kiest maakt niet uit, dus het is een combinatie.<br><br><strong>Berekening:</strong> ${binomHTML(n, 3)} = ${ans}`
                 };
             },
             // 4: Productregel (Menu)
@@ -180,12 +163,11 @@
                 const a = 3 + Math.floor(Math.random() * 3);
                 const b = 3 + Math.floor(Math.random() * 3);
                 const c = 2 + Math.floor(Math.random() * 2);
+                const ans = a * b * c;
                 return {
-                    category: "Productregel",
                     q: `Een restaurant biedt een menu aan met ${getalNaarTekst(a)} voorgerechten, ${getalNaarTekst(b)} hoofdgerechten en ${getalNaarTekst(c)} nagerechten.<br><br>Bereken hoeveel verschillende 3-gangenmenu's er mogelijk zijn.`,
-                    a: a * b * c,
-                    h: `Vermenigvuldig het aantal keuzes per gang met elkaar.`,
-                    e: `${a} · ${b} · ${c} = ${a * b * c}`
+                    a: ans,
+                    e: `Je maakt achter elkaar onafhankelijke keuzes uit verschillende categorieën, dus vermenigvuldig je de aantallen (productregel).<br><br><strong>Berekening:</strong> ${a} · ${b} · ${c} = ${ans}`
                 };
             },
             // 5: Samengestelde Combinatie
@@ -194,11 +176,9 @@
                 const v = 4 + Math.floor(Math.random() * 3);
                 const ans = math.nCr(m, 2) * math.nCr(v, 2);
                 return {
-                    category: "Samengestelde Combinatie",
                     q: `Voor een projectgroep worden 2 jongens en 2 meisjes gekozen. Er zijn ${getalNaarTekst(m)} jongens en ${getalNaarTekst(v)} meisjes beschikbaar.<br><br>Bereken hoeveel verschillende groepen er gevormd kunnen worden.`,
                     a: ans,
-                    h: `Bereken de combinaties van jongens en meisjes los van elkaar en vermenigvuldig ze.`,
-                    e: `${binomHTML(m, 2)} · ${binomHTML(v, 2)} = ${math.nCr(m, 2)} · ${math.nCr(v, 2)} = ${ans}`
+                    e: `Voor de jongens en de meisjes maakt de volgorde van kiezen niet uit (combinatie). Omdat je beide kiest, vermenigvuldig je de uitkomsten met elkaar.<br><br><strong>Berekening:</strong> ${binomHTML(m, 2)} · ${binomHTML(v, 2)} = ${math.nCr(m, 2)} · ${math.nCr(v, 2)} = ${ans}`
                 };
             },
             // 6: Rooster-paden
@@ -206,23 +186,21 @@
                 const rechts = 3 + Math.floor(Math.random() * 2);
                 const omhoog = 2 + Math.floor(Math.random() * 2);
                 const totaal = rechts + omhoog;
+                const ans = math.nCr(totaal, rechts);
                 return {
-                    category: "Rooster-paden",
                     q: `In een rooster moet je van linksonder naar rechtsboven lopen. Je zet in totaal ${getalNaarTekst(totaal)} stappen, waarvan ${getalNaarTekst(rechts)} naar rechts en de rest omhoog.<br><br>Bereken hoeveel verschillende kortste routes er mogelijk zijn.`,
-                    a: math.nCr(totaal, rechts),
-                    h: `Kies welke van de ${totaal} stappen naar rechts zijn. Gebruik ${binomHTML(totaal, rechts)}.`,
-                    e: `${binomHTML(totaal, rechts)} = ${math.nCr(totaal, rechts)}`
+                    a: ans,
+                    e: `Van de in totaal ${totaal} stappen kies je er ${rechts} die naar rechts gaan. De volgorde waarin je die positie-keuzes maakt maakt niet uit, dus het is een combinatie.<br><br><strong>Berekening:</strong> ${binomHTML(totaal, rechts)} = ${ans}`
                 };
             },
             // 7: Volledige permutatie (Faculteit)
             () => {
                 const n = 4 + Math.floor(Math.random() * 2);
+                const ans = math.factorial(n);
                 return {
-                    category: "Volledige Permutatie (n!)",
                     q: `Op een boekenplank worden ${getalNaarTekst(n)} verschillende boeken naast elkaar gezet.<br><br>Bereken op hoeveel manieren je deze boeken op een rij kunt rangschikken.`,
-                    a: math.factorial(n),
-                    h: `Alle elementen worden gebruikt en de volgorde telt. Gebruik n-faculteit (n!).`,
-                    e: `${n}! = ${math.factorial(n)}`
+                    a: ans,
+                    e: `De volgorde waarin je de dingen kiest maakt uit en je kan elk ding maximaal één keer kiezen, dus het is een permutatie.<br><br><strong>Berekening:</strong> ${n}! = ${ans}`
                 };
             },
             // 8: Vaasmodel
@@ -233,11 +211,9 @@
                 const combBlauw = math.nCr(blauw, 1);
                 const ans = combRood * combBlauw;
                 return {
-                    category: "Vaasmodel zonder terugleggen",
                     q: `In een vaas zitten ${getalNaarTekst(rood)} rode en ${getalNaarTekst(blauw)} blauwe knikkers. Je pakt in één greep 3 knikkers uit de vaas.<br><br>Bereken op hoeveel manieren je precies 2 rode en 1 blauwe knikker kunt pakken.`,
                     a: ans,
-                    h: `Bereken ${binomHTML(rood, 2)} voor rood en ${binomHTML(blauw, 1)} voor blauw, en vermenigvuldig de uitkomsten.`,
-                    e: `Rode knikkers: ${binomHTML(rood, 2)} = ${combRood}<br>Blauwe knikkers: ${binomHTML(blauw, 1)} = ${combBlauw}<br>Totaal: ${binomHTML(rood, 2)} · ${binomHTML(blauw, 1)} = ${combRood} · ${combBlauw} = ${ans}`
+                    e: `Per kleur maakt de volgorde van kiezen niet uit (combinatie). Beide keuzes vermenigvuldig je met elkaar.<br><br><strong>Berekening:</strong> ${binomHTML(rood, 2)} · ${binomHTML(blauw, 1)} = ${combRood} · ${combBlauw} = ${ans}`
                 };
             },
             // 9: Selectie (k uit n)
@@ -246,34 +222,30 @@
                 const k = 2 + Math.floor(Math.random() * 2);
                 const ans = math.nCr(n, k);
                 return {
-                    category: "Combinatie (Selectie)",
                     q: `Op een kaart staan ${getalNaarTekst(n)} verschillende gerechten. Je mag een schaal samenstellen met precies ${getalNaarTekst(k)} verschillende gerechten.<br><br>Bereken hoeveel verschillende schalen je kunt samenstellen.`,
                     a: ans,
-                    h: `De volgorde van keuzes op de schaal heeft geen betekenis. Gebruik een combinatie ${binomHTML(n, k)}.`,
-                    e: `${binomHTML(n, k)} = ${ans}`
+                    e: `De volgorde waarin je de dingen kiest maakt niet uit, dus het is een combinatie.<br><br><strong>Berekening:</strong> ${binomHTML(n, k)} = ${ans}`
                 };
             },
             // 10: Onafhankelijke keuzes (Muntstukken)
             () => {
                 const k = 4 + Math.floor(Math.random() * 3);
+                const ans = Math.pow(2, k);
                 return {
-                    category: "Onafhankelijke Gebeurtenissen",
                     q: `Je gooit een eerlijk muntstuk ${getalNaarTekst(k)} keer achter elkaar. Voor elke worp is de uitkomst Kop of Munt.<br><br>Bereken hoeveel verschillende reeksen van uitkomsten er mogelijk zijn.`,
-                    a: Math.pow(2, k),
-                    h: `Elke worp kent 2 opties. Gebruik 2<sup>${k}</sup>.`,
-                    e: `2<sup>${k}</sup> = ${Math.pow(2, k)}`
+                    a: ans,
+                    e: `De volgorde waarin je de dingen kiest maakt uit en je kan elk ding vaker kiezen, dus het is een macht.<br><br><strong>Berekening:</strong> 2<sup>${k}</sup> = ${ans}`
                 };
             },
             // 11: Codes zonder herhaling
             () => {
                 const n = 7 + Math.floor(Math.random() * 3);
                 const k = 3;
+                const ans = math.nPr(n, k);
                 return {
-                    category: "Permutatie zonder herhaling",
                     q: `Je maakt een geheime code van ${getalNaarTekst(k)} verschillende cijfers gekozen uit de cijfers 1 tot en met ${n}. Geen enkel cijfer mag dubbel gebruikt worden.<br><br>Bereken hoeveel verschillende codes er mogelijk zijn.`,
-                    a: math.nPr(n, k),
-                    h: `Volgorde is belangrijk en herhaling mag niet. Gebruik ${n} · ${n-1} · ${n-2}.`,
-                    e: `${n} · ${n-1} · ${n-2} = ${math.nPr(n, k)}`
+                    a: ans,
+                    e: `De volgorde waarin je de dingen kiest maakt uit en je kan elk ding maximaal één keer kiezen, dus het is een permutatie.<br><br><strong>Berekening:</strong> ${n} · ${n-1} · ${n-2} = ${ans}`
                 };
             }
         ];
@@ -288,7 +260,6 @@
                 document.getElementById('start-btn').addEventListener('click', () => this.start());
                 document.getElementById('submit-btn').addEventListener('click', () => this.checkAnswer());
                 document.getElementById('next-btn').addEventListener('click', () => this.generateNew());
-                document.getElementById('toggle-hint-btn').addEventListener('click', () => this.toggleHint());
                 
                 document.getElementById('answer-input').addEventListener('keypress', (e) => {
                     if (e.key === 'Enter') this.checkAnswer();
@@ -299,13 +270,7 @@
                 document.getElementById('start-btn').classList.add('hidden');
                 document.getElementById('input-container').classList.remove('hidden');
                 document.getElementById('submit-btn').classList.remove('hidden');
-                document.getElementById('hint-container').classList.remove('hidden');
                 this.generateNew();
-            },
-
-            toggleHint() {
-                const hintText = document.getElementById('hint-text');
-                hintText.classList.toggle('hidden');
             },
 
             generateNew() {
@@ -318,12 +283,7 @@
                 if (questionHistory.length > 6) questionHistory.shift();
 
                 currentQuestion = generators[genIndex]();
-                document.getElementById('question-meta').innerText = currentQuestion.category;
                 document.getElementById('question-text').innerHTML = currentQuestion.q;
-                
-                // Reset Hint
-                document.getElementById('hint-text').innerText = currentQuestion.h;
-                document.getElementById('hint-text').classList.add('hidden');
 
                 // Reset Inputs
                 const input = document.getElementById('answer-input');
